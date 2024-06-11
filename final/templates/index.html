@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block styleblock %}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluied main-body" style="margin-top: 100px; margin-bottom:100px">
+		<div class="row" style="">
+		  <div class="col-sm-3"></div>
+		  <div class="col-sm-6 shadow" style="border: 0px solid black; padding-top: 10px;">
+		    <div class="text-center">
+		      <p style="font-size: 18px; font-weight: bold;">
+		    	{{ context['websitename'] }} is website that provides different small day to day necessary tools. we try to upload as many as possible tools that can be handy for different purpose.<br>
+		    	Below are some list of tools taht can you use.
+		      </p>
+		      <p style="font-size: 18px; font-weight: bold;"><strong>1. Sudoku Game: </string>you can play sudoku game and upload your sudoke if you are having problem in solving.</p>
+		      <p style="font-size: 18px; font-weight: bold;"><strong>2. Age caluclator: </string>you can caluclate age in different formats you also use this site to calculate difference between two datas in different formats. This tools also provide some extra inforamtion like average person has done in given time periods.</p>
+		      <p style="font-size: 18px; font-weight: bold;"><strong>3. Font Generator: </string> This is really an amazing tool some time you preger your text in different formats rather then a simple text. for that purpose this tool relly an good tool.</p>
+		      
+		      <p style="font-size: 18px; font-weight: bold;">
+		      	This all tools are design by {{ context['developer']|default("Govinda Prasad") }}.
+		      </p>
+		    </div><br>
+
+		    <div class="row text-center" style="padding: 5px; margin-bottom: 50px;">
+		      <div class="col" style="">
+		      	<a href="{{ url_for('sudoku.home') }}">
+		      	<img src="{{ url_for('static' , filename='img/sudoku_box.png')}}" style="width: 150px;"></img><br>
+		      	<span style="text-align:center;">sudoku game</span>
+		      	</a>
+		      </div>
+		      <div class="col " style="">
+		      	<a href="{{ url_for('agecalculator.home') }}">
+		      	<img src="{{ url_for('static' , filename='img/cal_box.png')}}" style="width: 150px;"></img><br>
+		      	<span style="text-align:center;">age calculator</span>
+		      </a>
+		      </div>
+		      <div class="col " style="">
+		      	<a href="{{ url_for('instafonts.home') }}">
+		      	<img src="{{ url_for('static' , filename='img/instafont_box.png')}}" style="width: 150px;" ></img><br>
+		      	<span style="text-align:center;">font generator</span></a>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="col-sm-3"></div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block scriptblock %}
+{% endblock %}

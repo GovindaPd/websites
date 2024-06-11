@@ -1,0 +1,341 @@
+{% extends 'layout.html' %}
+
+{% block styleblock %}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluied main-body">
+		<div class="cal-desc" style="margin-top: 50px;">
+		    <div class="" style="">
+		    	<p style="font-size: 18px; font-weight: bold; text-align: center;">
+		    	  Calculate Your Age In Different Formats. Change Date Of Birth As You Prefer.
+		    	</p>
+		    </div>
+		</div>
+
+		<div class="cal-form row" style="margin-top:50px; margin-bottom:50px;" >
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4 d-flex justify-content-center shadow resp-border" style="border-radius: 10px;">
+				
+			  <div class="row">
+				<form name="agecalculator" class="form-group" action="{{ url_for('agecalculator.calculate_age_result', _anchor='result-box') }}" method="post">
+					<p style="color: whitesmoke; text-align:center;">SELECT YOUR DATE OF BIRTH</p>
+					<div class="form-inline row" style="margin-top: auto;">
+						<div class="form-group" style="">
+				    		<div class="col-xs-2">
+							<select name="fromday" class="form-control" id="fromday" style="">
+								<option value="1">1</option>
+							</select>
+							</div>
+						</div>						
+				  		<div class="form-group" style="margin-left: 5px;">
+				    		<div class="col-xs-2">
+							<select name="frommonth" class="form-control" id="frommonth">
+								<option value="1">January</option>
+								<option value="2">February</option>
+								<option value="3">March</option>
+								<option value="4">April</option>
+								<option value="5">May</option>
+								<option value="6">June</option>
+								<option value="7">July</option>
+								<option value="8">August</option>
+								<option value="9">September</option>
+								<option value="10">October</option>
+								<option value="11">November</option>
+								<option value="12">December</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-group row" style="margin-left: 5px;">
+				    		<div class="col-xs-2">
+				    		<input type="number" min="999" max="9999"  class="form-control" name="fromyear" id="fromyear" maxlength="4" minlength="4" required="required">
+				    		</div>
+				  		</div>
+					</div><br>
+					<p style="color: whitesmoke; text-align: center;" style="">TO CURRENT DATE</p>
+					<div class="form-inline row" style="margin-top: auto;">
+						<div class="form-group" style="">
+				    		<div class="col-xs-2">
+							<select name="today" id="today" class="form-control">
+								<option value=""></option>
+							</select>
+							</div>
+						</div>
+				  		<div class="form-group" style="margin-left: 5px;">
+				    		<div class="col-xs-2">	
+							<select name="tomonth" id="tomonth" class="form-control">
+								<option value="1">January</option>
+								<option value="2">February</option>
+								<option value="3">March</option>
+								<option value="4">April</option>
+								<option value="5">May</option>
+								<option value="6">June</option>
+								<option value="7">July</option>
+								<option value="8">August</option>
+								<option value="9">September</option>
+								<option value="10">October</option>
+								<option value="11">November</option>
+								<option value="12">December</option>
+							</select>
+							</div>
+						</div>
+						<div class="form-group row" style="margin-left: 5px;">
+				    		<div class="col-xs-2">
+				    		<input type="number" min="1900" max="9999" id="toyear" class="form-control" name="toyear" maxlength="4" minlength="4" required="required">
+				    		</div>
+				  		</div>
+					</div><br>
+					<div class="form-inline row">
+						<div class="col-sm-2"></div>
+						<div class="col-sm-8">
+							<div class="form-group row">
+								<input type="submit" name="submit" class="btn btn-grad btn-block" value="Calculate" id="cal-age">
+							</div>
+						</div>
+						<div class="col-sm-2"></div>
+
+					</div>
+				</form>
+			  </div>
+			</div>
+			<div class="col-sm-4"></div><br>
+		</div>
+
+		<div class="cal-result">
+			<div class="row">
+				<div class="col-sm-4"></div>
+				{% if mylist %}
+				<div class="col-sm-4 d-flex justify-content-center " style="border-radius: 10px;" id="result-box">
+				{% else %}
+				<div class="col-sm-4" style="">
+				{% endif %}
+				<br>
+					<center>
+						{% for i in mylist %}
+						<p class="" style="font-size: 18px ;border-bottom: 0px solid white; box-shadow: 0px 2px 0px white;"><strong>{{ i }}</strong></p>
+						{% endfor %}
+						<br><br><br><br>
+						<h3>FACTS ABOUT YOU</h3><br>
+						{% for j in context['extra'] %}
+						<p class="" style="font-size: 18px ;border-bottom: 0px solid white; box-shadow: 0px 2px 0px white;">{{ j }}</p>
+						{% endfor %}
+					</center>
+				</div>
+				</div>
+				<div class="col-sm-4"></div>
+				<br><br>
+			</div>
+		</div>
+
+		<div class="container-fluied" style="overflow-x: hidden; margin-top: 50px; margin-bottom:50px;">
+			<div class="row" style="" >
+				<div class="col-sm-3"></div>
+				<div class="col-sm-6 justify-content-center shadow" style="border-radius: 10px;">
+					<div style="padding-left: 10px; padding-right: 10px;">
+						
+					<img src="{{ url_for('static', filename='img/help_age_calculator.jpg') }}" alt="agecalculator" style="width:100%; padding-top:10px; padding-bottom: 10px;">
+					<br><br>
+					<p class="text-center" style="font-size: 20px; font-weight: bold;">About {{ context['sitename'] }}</p>
+					<p>
+						Welcome to youragecalculator.com, It is one of the Best Age Calculation Websites.
+						A lot of people requested me to make a website, which calculates your age from your birth date to the current date.<br>
+						Due to such many requests, I have created this Age Calculator Website.
+						On this website, you will get your exact age In Years, Months, Days, Hours, Minutes, and Seconds.<br>
+						This website calculates extra details, like:- How Many Days Are Left in Your Next Birthday and How Many Days Are Passed After Your Birthday.
+						You will get more extra information on this website, which are given below:- 
+						<ul>
+							<li>How Much You have Eaten Around?</li>
+							<li>How Much You have Taken Breathed Around?</li>
+							<li>How Much Time Did You spend For Eating & Drinking Around?</li>
+							<li>How Much had Your Heart Beaten Around?</li>
+							<li>How Much You have Slept Around?</li>
+							<li>How Much You have Laughed Around?</li>
+						</ul>
+					</p><br>
+					<p>
+						Other then caluclate age you can use this our website to get difference between dates in different formates.
+					</p><br>
+					<p>
+						All these specialties make <a href="#">{{ context['websitename'] }}</a> the Best Age Calculator Website in the World.<br>
+						There is a lot of Websites, which calculate the Date & Time between two duration. But, these websites do not calculate accurate data.<br>
+						That's why I have created this website. <a href="#">{{ context['websitename'] }}</a> Calculate accurate data between two duration.
+					</p><br>
+					<p class="text-center" style="font-size: 20px; font-weight: bold;">How To Use This Age Calculator Website?</p>
+					<img src="{{ url_for('static', filename='img/how_to_use_age_calculator.jpg') }}" alt="agecalculator" style="width:100%; padding-top:10px; padding-bottom: 10px;">
+
+					<p>
+						This Age Calculator Website's Calculation and using process is too much easy.<br>
+						For Age Calculation on this website, you have to just select your date of birth or start time and select the day which you want to calculate and then select ending date & time after putting all that information, please click on the 'Calculate' button.<br>
+						After clicking the 'Calculate' button, this age calculator website will automatically generate an accurate time duration.<br>
+						That's all, Now you can calculate more people's accurate dates & times.<br>
+						If you want to send calculated data of calculation, then you have to take a screenshot of the calculated data. After it, you can send it to others.
+					</p><br>
+					<p class="text-center" style="font-size: 20px; font-weight: bold;">YourAgeCalulator.com Social Media Presence
+					</p>
+					<p>
+						This website also has social media accounts, like- Facebook, Instagram, Twitter, etc.
+					</p><br>
+					<p class="text-center" style="font-size: 20px; font-weight: bold;">
+						Can I Calculate My Upcoming Next Birthday By Your Age Calculator Website?
+					</p>
+					<p>
+						Yes, You can calculate your Upcoming Next Birthday. For Calculate your Next Upcoming Birthday, you don't need to put in your extra effort.
+						Whenever you will calculate your Age, then the Next Upcoming Birthday data also will be calculated automatically.
+						All the things are made YourAgeCalculator.com one of the Best Age Calculator Websites in the Market.
+					</p><br>
+					<p class="text-center" style="font-size: 20px; font-weight: bold;">What is the Pearson Age Calculator?</p>
+					<p>
+						A lot of people are regularly searching for Pearson Age Calculator.
+						Pearson Age Calculator is also an Age Calculator Website, which calculates the age in chronological order of Person.
+						But, If you want accurate and optimize data of your age, then YourAgeCalculator.com is the Primary Choice of the users.
+					</p>
+				</div>
+				</div>
+				<div class="col-sm-3"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+<!-- var formdata = $('form').serializeArray() -->
+<!--$('#frodbutton').click(function(){
+	var fd=parseInt($('#fromday').val())
+	var fm=parseInt($('#frommonth').val())
+	var fy=parseInt($('#fromyear').val())
+	var td=parseInt($('#today').val())
+	var tm=parseInt($('#tomonth').val())
+	var ty=parseInt($('#toyear').val())
+	fromdayformat = new Date(fy,fm,fd)
+	todayformat = new Date(ty,tm,td)
+	// days = todayformat-fromdayformat
+	diff = todayformat.getTime() - fromdayformat.getTime()
+	diff_in_day = diff/(1000*3600*24)	//(1000*60*60*24)
+	alert(diff_in_day)
+})
+-->
+
+{% block scriptblock %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        let d = new Date()
+        let cy = d.getFullYear()
+        let cm = d.getMonth()+1
+        let cd = d.getDate()
+        {% if context %}
+            $("#fromyear").val("{{context['byear']}}")
+            $("#frommonth").val("{{context['bmonth']}}")
+            fromdayprinter()
+            $("#fromday").val("{{context['bday']}}")
+            $("#toyear").val("{{context['cyear']}}")
+            $("#tomonth").val("{{context['cmonth']}}")
+            todayprinter()
+            $("#today").val("{{context['cday']}}")
+
+        {% else %}
+            $("#fromyear").val("1900")
+            $("#frommonth").val("1")
+            fromdayprinter()
+            $("#fromday").val("1")
+            $("#toyear").val(cy)
+            $("#tomonth").val(cm)
+            todayprinter()
+            $("#today").val(cd)
+        {% endif %}
+    });
+
+    $("#frommonth").change(function(){
+        let cdv = document.getElementById('fromday').value
+        fromdayprinter()
+        $("#fromday").val(cdv)
+    });
+    $("#fromyear").change(function(){
+        let cdv = document.getElementById('fromday').value
+        fromdayprinter()
+        $("#fromday").val(cdv)
+    });
+
+    function fromdayprinter(){
+        let str1 = ""
+        let str2 = ""
+        let days = 0
+        let flag = 0
+        let month = document.getElementById('frommonth').value;
+        if (month =='1' || month =='3' || month =='5' || month =='7' || month =='8' || month =='10'|| month =='12'){
+            days = 31
+        }
+        if (month =='4' || month =='6' || month =='9' || month =='11'){
+            days = 30
+        }
+        if(month=='2'){
+            let year = document.getElementById('fromyear').value;
+            flag = leapyear(year)
+            if(flag == 1){
+                days = 29
+            }
+            if(flag == 0){
+                days = 28
+            }
+        }
+        for(i=1;i<=days;i++){
+            str1 = "<option value ="+i+">"+i+"</option>"
+            str2 = str2.concat(str1)
+        }
+        $('#fromday').html(str2);
+    }
+
+    function leapyear(year){
+        flag = 0
+        if(year%4 == 0){
+            if(year%100 == 0){
+                if(year%400 == 0)
+                    {flag =  1}
+            }
+            else {
+                flag = 1}
+            }
+        else 
+            { flag = 0}         
+        return flag;
+    }
+
+    $("#tomonth").change(function(){
+        let cdv = document.getElementById('today').value
+        todayprinter()
+        $("#today").val(cdv)
+    });
+    $("#toyear").change(function(){
+        let cdv = document.getElementById('today').value
+        todayprinter()
+        $("#today").val(cdv)
+    });
+
+    function todayprinter(){
+        let str1 = ""
+        let str2 = ""
+        let days = 0
+        let flag = 0
+        let month = document.getElementById('tomonth').value;
+        if (month =='1' || month =='3' || month =='5' || month =='7' || month =='8' || month =='10'|| month =='12'){
+            days = 31
+        }
+        if (month =='4' || month =='6' || month =='9' || month =='11'){
+            days = 30
+        }
+        if(month=='2'){
+            let year = document.getElementById('toyear').value;
+            flag = leapyear(year)
+            if(flag == 1){
+                days = 29
+            }
+            if(flag == 0){
+                days = 28
+            }
+        }
+        for(i=1;i<=days;i++){
+            str1 = "<option value ="+i+">"+i+"</option>"
+            str2 = str2.concat(str1)
+        }
+        $('#today').html(str2);
+    }
+</script>
+{% endblock %}

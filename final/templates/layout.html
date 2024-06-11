@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ context['title']|default('Govinda Prasad') }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" sizes="16x16" type="image/png">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    
+    {% block styleblock %}
+
+    {% endblock %}
+    
+</head>
+<body>
+    <!-- header section -->
+    <div class="container-fluied header-body">
+        <div class="header-space shadow">
+            <h3 class="titletext text-center">
+              <a href="/" alt="sitename" style="text-decoration: none;">
+                {{ context['websitename'] }}</a>
+            </h3>
+        </div>
+    </div>
+
+    <!-- content section -->
+    {% block body %}
+    {% endblock %}
+
+
+    <!-- footer section -->
+    <div class="footer-info shadow" style="">
+        <div class="row " style=" bottom: 0;">
+          <div class="col-sm-2 d-flex justify-content-center">
+            <p><a href="/about" style="">About Us</a></p>
+         </div>
+         <div class="col-sm-2 d-flex justify-content-center">
+            <p><a href="/contactus" style="">Contact Us</a></p>
+         </div>
+          <div class="col-sm-2 d-flex justify-content-center">
+            <p><a href="/privacy-policy" style="">Privacy Ploicy</a></p>
+          </div>
+          <div class="col-sm-2 d-flex justify-content-center">
+            <p><a href="/disclaimer" style="">Disclaimer</a></p>
+          </div>
+          <div class="col-sm-2 d-flex justify-content-center">
+            <p><a href="/terms-and-conditions" style="">Terms And Conditions</a></p>
+          </div>  
+          <div class="col-sm-2 d-flex justify-content-center">
+            <p><a href="/" style="">&copy {{ context['currentyear'] }} {{ context['websitename'] }}</a></p>
+          </div>   
+        </div>
+    </div>
+</body>
+</html>
+
+{% block scriptblock %}
+{% endblock %}

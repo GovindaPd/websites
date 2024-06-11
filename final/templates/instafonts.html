@@ -1,0 +1,195 @@
+{% extends 'layout.html' %}
+
+{% block styleblock %}
+  <script type="text/javascript" src="{{ url_for('static', filename='js/fontslist.js') }}"></script>
+	
+	<style type="text/css">
+  	div.sticky {
+		  position: -webkit-sticky;
+		  position: sticky;
+		  top: 0;
+		}
+
+		.mytooltip {
+		  position: relative;
+		  display: inline-block;
+		}
+
+		.mytooltip .mytooltiptext {
+		  visibility: hidden;
+		  width: 140px;
+		  background-color: #555;
+		  color: #fff;
+		  text-align: center;
+		  border-radius: 6px;
+		  padding: 5px;
+		  position: absolute;
+		  z-index: 1;
+    	/*	bottom: 100%;*/
+		  left: 50%;
+		  margin-left: -75px;
+		  opacity: 0;
+			/*	transition: opacity 0.3s;*/
+		}
+		textarea{
+			border: none;
+			overflow: auto;
+			outline: none;
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			box-shadow: none;
+		}
+  </style>
+{% endblock %}
+
+{% block body %}
+
+<!-- <body style="overflow-x: hidden; background-color: #21D4FD; background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);"> -->
+
+	<!-- get user txt -->
+	<div class="container sticky" style="padding-top: 20px; margin-bottom:100px;">
+		<div class="row justify-content-center">
+			<div class="form-group col-sm-10" style="width: 100%;">
+				<textarea class="" id="userinput" placeholder="Write Your Text Here And See Magic 😎..." style="height: 70px; width: 100%; text-align: center; border: 3px solid #852583; border-radius: 7px; font-size: 20px; display: block; overflow: hidden; padding: .6em 0;"></textarea>
+				<button class="clear" style="position: absolute; right: 10px; color: #de0707; font-size: 20px; padding: 10px 20px; line-height: 1.5; background: 0 0;    border: none; z-index: 99999; border-radius: 3px; cursor: pointer; top: 3px;   outline: none;">X</button>
+			</div>
+		</div>
+		
+		<div class="row justify-content-center">
+			<div class="mytooltip">
+			  <span class="mytooltiptext" id="mytooltipid">Text Copied!</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="container fontscontainer" style="margin-bottom:50px;">
+		<h2 style="text-align: center;">Click on box to copy text.</h2>
+		<div class="row justify-content-center" id="difffonttype" style="margin: .6em 0;">
+			
+			<script type="text/javascript">
+				function charConverter(txt, font_typte){
+			  	var dk = Object.keys(font_typte);
+			 		return txt.split("").map(function(singlechar){
+			 			if (dk.includes(singlechar)){
+			 				return font_typte[singlechar]
+			 			}
+			 			else{
+			 				return singlechar;}
+			 			}).join("");
+			  };
+
+				for(i=0;i<lof.length;i++){
+					$('#difffonttype').append(`<div class="col-sm-4 form-group" style="position: static; width: 100%; overflow: hidden;">
+						<textarea class="fonttype${i}" style="height:66px%; width: 100%; text-align: center; resize:none; border: 2px solid #852583; border-radius: 6px; font-size: 18px; overflow: hidden; display: block; box-shadow:none;" readonly  onclick="copyText(this)">${charConverter('Write Some Text Here',lof[i])}</textarea> </div>`);
+					}
+			</script>
+		</div>	
+	</div>
+
+	<div class="container randomfontscontainer" style="margin-bottom:50px;">
+		<h3 style="text-align: center;">random generated fonts</h3>
+		<div class="row justify-content-center" id="randomfontcol" style="margin: .6em 0;">
+		</div>
+	</div>
+
+	<div class="container" style="">
+		<div class="row justify-content-center">
+			<div class="form-group row">
+				<input type="button" id="loadmorefonts" name="" class="btn btn-grad btn-block btn-lg" value="Load More">
+			</div>
+		</div>
+	</div>	
+
+{% endblock %}
+
+{% block scriptblock %}
+<script type="text/javascript">
+	$(document).ready(function(){
+
+	  $('#userinput').keyup(function(){
+	  	let utext = $(this).val()
+
+	  	if (utext==""){
+	  		for(i=0; i<lof.length; i++){
+		 			let cc = charConverter('Write some text here', lof[i]);
+		 			$('.fonttype'+i).text(cc);
+		 		}
+		 		$('#randomfontcol').empty();
+	  	}
+	  	else{
+	  		// first default font convert
+	  		for(i=0; i<lof.length; i++){
+		 			let cc = charConverter(utext, lof[i]);
+		 			$('.fonttype'+i).text(cc);
+		 		}	
+		 		// clear #randomfontcol div first and then generated random text
+		 		// default it generate 12 each on click of load more btn
+		 		$('#randomfontcol').empty();
+				let fontslist = "";
+		 	  for(i=1; i<=12; i++){
+		 	  	fontslist = `${fontslist} <div class="col-sm-4 form-group" style="position: static; width: 100%; overflow: hidden;"><textarea class="fonttype${i}" style="height:66px%; width: 100%; text-align: center; resize:none; border: 2px solid #852583; border-radius: 6px; font-size: 18px; overflow: hidden;" readonly  onclick="copyText(this)">${randomFontGenerator(utext.toLowerCase())}</textarea></div>`
+		 		}
+		 		$('#randomfontcol').append(fontslist);
+	  	}
+	  });
+
+		$('.clear').click(function(){
+		 	$('#userinput').val("");
+		 	$('#randomfontcol').empty();
+		});
+
+	  $('.clear').on('mouseover', function(){
+	 		$(this).css({"font-size": "25px"})
+	  });
+
+	  $('.clear').on('mouseout', function(){
+	 		$(this).css({"font-size": "20px"})
+	  });
+
+	  $('#loadmorefonts').click(function(){
+	 	  let utext = $('#userinput').val();
+	 	  if(utext != ""){
+				let fontslist = "";
+		 	  for(i=1;i<=12;i++){
+		 	  	fontslist = `${fontslist} <div class="col-sm-4 form-group" style="position: static; width: 100%; overflow: hidden;"><textarea class="fonttype${i}" style="height:66px%; width: 100%; text-align: center; resize:none; border: 2px solid #852583; border-radius: 6px; font-size: 18px; overflow: hidden;" readonly  onclick="copyText(this)">${randomFontGenerator(utext.toLowerCase())}</textarea></div>`
+		 		}
+		 		$('#randomfontcol').append(fontslist);  	
+	 	  }
+	  });
+	});
+
+	function randomFontGenerator(text){
+	 	let dk = Object.keys(allChar);
+	 	return text.split("").map(function(singlechar){
+	 		if (dk.includes(singlechar)){
+	 			return allChar[singlechar][Math.floor(Math.random() * allChar[singlechar].length)]
+	 		}
+	 		else{
+	 			return singlechar;
+	 		}
+	 	}).join("");
+ 	};
+
+ 	function hideTooltip(){
+ 		$('#mytooltipid').css('opacity', 0);
+ 		$('#mytooltipid').css('visibility', 'hidden');
+ 	}
+ // copy text to clipboard
+ 	function copyText(ele){
+ 		ele.select()
+ 		ele.setSelectionRange(0,99999)	// for mobile device
+ 		document.execCommand("copy")
+ 		// document.execCommand("paste")
+ 		
+ 		// navigator.clipboard.writeText(ele.value)	#this is also use for show copy paste navigation option
+ 		$('#mytooltipid').css('visibility', 'visible');
+ 		$('#mytooltipid').css('opacity', 1);
+ 		$('#mytooltipid').css('transition','opacity 1.0s');
+ 		setTimeout(hideTooltip, 2000)
+ 		// console.log(ele.value)
+ 		// console.log(ele.textContent)
+ 	}
+
+</script>
+
+{% endblock %}
